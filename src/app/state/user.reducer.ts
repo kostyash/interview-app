@@ -1,9 +1,10 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { User } from "../entities/contracts";
-import { createReducer } from "@ngrx/store";
+import { createReducer, on } from "@ngrx/store";
+import * as UserActions from './user.actions';
 
-export interface State extends EntityState<User> {
-    selectedUsersIds: string[];
+export interface UserState extends EntityState<User> {
+    currentUsersIds: string[];
 }
 
 
@@ -16,16 +17,29 @@ export function sortByName(a: User, b: User): number {
 }
 
 
-export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
+export const usersAdapter: EntityAdapter<User> = createEntityAdapter<User>({
     selectId: selectUserId,
     sortComparer: sortByName,
 });
 
 
-export const initialState: State = adapter.getInitialState({
-   
-    selectedUsersIds: [],
+export const initialState: UserState = usersAdapter.getInitialState({
+
+    currentUsersIds: [],
 });
 
 
-export const userReducer = createReducer(initialState);
+export const userReducer = createReducer(initialState,
+    on(UserActions.selectUser, (state, { userId }) => {
+        const currentUsersIds = [...state.currentUsersIds];
+        currentUsersIds.unshift();
+        if (currentUsersIds.length > 2) {
+            currentUsersIds.pop();
+        }
+        return { ...state, currentUsersIds: currentUsersIds };
+    }),
+    on(UserActions.loadUsers, (state, { users }) => {
+        console.log(users);
+        return usersAdapter.setAll(users, { ...state, currentUsersIds: [] });
+    }),
+);
