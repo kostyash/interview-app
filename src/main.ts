@@ -6,12 +6,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AppComponent } from "./app/app.component";
 import { reducers } from "./app/state";
 import { UserEffects } from './app/state/user.effects';
+import { PostEffects } from "./app/state/post.effects";
 
 bootstrapApplication(AppComponent, {
     providers: [
         provideHttpClient(),
         provideStore(reducers),
-        provideEffects(UserEffects),   
+        provideEffects(UserEffects, PostEffects),   
         provideStoreDevtools({
             maxAge: 25, // Retains last 25 states
             logOnly: false, // Restrict extension to log-only mode

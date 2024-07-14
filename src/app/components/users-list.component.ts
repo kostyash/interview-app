@@ -24,7 +24,7 @@ export class UsersListComponent {
 
 
     selectUser(userId: string) {
-        this.store.dispatch(selectUser({ userId }))
+        this.store.dispatch(selectUser({ userId }));
     }
 
 }

@@ -1,0 +1,8 @@
+.feeds-container{
+    display: flex;
+    flex-direction: row;
+    .user-feeds{
+        width: 50%;
+        border: 1px solid #eee;
+    }
+}

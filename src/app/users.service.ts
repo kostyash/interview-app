@@ -8,11 +8,15 @@ import { Observable } from 'rxjs'
 })
 export class UsersService {
 
-  readonly baseUrl = 'http://localhost:7777/api/';
+  readonly baseUrl = 'http://localhost:7777/api/users';
 
   constructor(private http: HttpClient) { }
 
   public getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + 'users');
+    return this.http.get<User[]>(this.baseUrl);
+  }
+
+  public getUser(username: string): Observable<User> {
+    return this.http.get<User>(this.baseUrl + '/' + username);
   }
 }

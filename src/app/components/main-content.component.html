@@ -1,0 +1,7 @@
+<h2>
+    Feeds
+    <div class="feeds-container">
+        <app-posts-list class="user-feeds" *ngFor="let user of usernames$ | async" [username]="user"></app-posts-list>
+    </div>
+    
+</h2>

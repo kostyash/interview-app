@@ -9,6 +9,7 @@ import {
 } from './user.actions';
 
 import { UsersService } from '../users.service';
+import { getPosts } from './post.actions';
 
 @Injectable()
 export class UserEffects {
@@ -16,9 +17,8 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(getUsers),
       switchMap(action =>
-        this.usersService.getUsers().pipe(
-          tap(console.log),
-          map(users => loadUsers({ users })),
+        this.usersService.getUsers().pipe(      
+          switchMap(users => [loadUsers({ users }), getPosts({ usernames: users.slice(0,2).map(user => user.username)})]),
           catchError(error => of(logError({ error })))
         )
       )
