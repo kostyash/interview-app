@@ -1,9 +1,10 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { PostsListComponent } from "./posts-list/posts-list.component";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { selectCurrentUsersIds } from "../state";
 import { AsyncPipe, NgFor } from "@angular/common";
+import { deleteAllPosts } from "../state/post.actions";
 
 @Component({
     selector: "app-main-content",
@@ -12,9 +13,14 @@ import { AsyncPipe, NgFor } from "@angular/common";
     imports: [PostsListComponent, AsyncPipe, NgFor],
     standalone: true
 })
-export class MainContentComponent {
+export class MainContentComponent implements OnInit{
 
     store = inject(Store);
 
-    usernames$: Observable<string[]> = this.store.select(selectCurrentUsersIds);
+    usernames$!: Observable<string[]>;
+
+    ngOnInit(): void {
+        this.store.dispatch(deleteAllPosts());
+        this.usernames$ = this.store.select(selectCurrentUsersIds);
+    }
 }

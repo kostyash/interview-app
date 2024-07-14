@@ -27,7 +27,9 @@ export const initialState: PostState = postsAdapter.getInitialState({
 
 
 export const postReducer = createReducer(initialState,
-
+    on(PostActions.deleteAllPosts, (state) => {
+        return postsAdapter.removeAll(state);
+    }),
     on(PostActions.loadPosts, (state, { posts }) => {
 
         return postsAdapter.addMany(posts, state);
@@ -36,7 +38,10 @@ export const postReducer = createReducer(initialState,
 
         return postsAdapter.addMany(posts, state);
     }),
-    on(PostActions.deletePostsByUserName, (state, { username }) => {        
+    on(PostActions.deletePostsByUserName, (state, { username }) => {
         return postsAdapter.removeMany(post => post.username === username, state);
+    }),
+    on(PostActions.deleteOldPosts, (state, { currentUserIds }) => {
+        return postsAdapter.removeMany(post => !currentUserIds.includes(post.username), state);
     }),
 );
