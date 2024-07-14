@@ -42,4 +42,7 @@ export const userReducer = createReducer(initialState,
         const currentUsersIds = users.filter((user, index) => index < 2).map(user => user.username);
         return usersAdapter.setAll(users, { ...state, currentUsersIds: currentUsersIds });
     }),
+    on(UserActions.updateUser, (state, { update }) => {
+        return usersAdapter.updateOne(update, state);
+    })
 );

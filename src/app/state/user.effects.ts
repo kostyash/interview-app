@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import {
+  getUser,
   getUsers,
   loadUsers,
   logError,
-  selectUser
+  selectUser,
+  updateUser
 } from './user.actions';
 
+import { Store } from '@ngrx/store';
 import { selectCurrentUsersIds } from '.';
 import { UsersService } from '../users.service';
 import { deleteOldPosts, getPosts, getPostsByUser } from './post.actions';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class UserEffects {
@@ -34,6 +36,23 @@ export class UserEffects {
       concatLatestFrom(() => this.store$.select(selectCurrentUsersIds)),
       switchMap(([action, currentUserIds]) =>
         ([deleteOldPosts({ currentUserIds }), getPostsByUser({ username: action.userId })])
+      )
+    )
+  );
+
+  getUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getUser),
+      switchMap(action =>
+        this.usersService.getUser(action.username).pipe(
+          map(user => updateUser({
+            update: {
+              id: user.username,
+              changes: user
+            }
+          })),
+          catchError(error => of(logError({ error })))
+        )
       )
     )
   );

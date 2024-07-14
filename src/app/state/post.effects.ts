@@ -14,6 +14,7 @@ import {
 import { Store } from '@ngrx/store';
 import { selectPostById } from '.';
 import { PostsService } from '../posts.service';
+import { getUser } from './user.actions';
 
 @Injectable()
 export class PostEffects {
@@ -47,19 +48,21 @@ export class PostEffects {
           return (throwError(() => new Error('no post')));
         }
         return this.postsService.setPostStatus({...post, liked: action.like}).pipe(
-          map(post => updatePost({
+          switchMap(post => [updatePost({
             update: {
               id: post.id,
               changes: {
                 liked: action.like
               } 
             }
-          })),
+          }), getUser({username: post.username})]),
           catchError(error => of(logError({ error })))
         )
       })
     )
   );
+
+  
 
   logError$ = createEffect(() =>
     this.actions$.pipe(
