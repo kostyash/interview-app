@@ -44,12 +44,9 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(getUser),
       switchMap(action =>
-        this.usersService.getUser(action.username).pipe(
-          map(user => updateUser({
-            update: {
-              id: user.username,
-              changes: user
-            }
+        this.usersService.getUser(action.username).pipe(       
+          map(users => updateUser({
+            user: users[0]
           })),
           catchError(error => of(logError({ error })))
         )

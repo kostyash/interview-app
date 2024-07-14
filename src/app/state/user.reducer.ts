@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
-import { User } from "../entities/contracts";
 import { createReducer, on } from "@ngrx/store";
+import { User } from "../entities/contracts";
 import * as UserActions from './user.actions';
 
 export interface UserState extends EntityState<User> {
@@ -13,7 +13,7 @@ export function selectUserId(a: User): string {
 }
 
 export function sortByName(a: User, b: User): number {
-    return a.username.localeCompare(b.username);
+    return a && a.username.localeCompare(b.username);
 }
 
 
@@ -42,7 +42,7 @@ export const userReducer = createReducer(initialState,
         const currentUsersIds = users.filter((user, index) => index < 2).map(user => user.username);
         return usersAdapter.setAll(users, { ...state, currentUsersIds: currentUsersIds });
     }),
-    on(UserActions.updateUser, (state, { update }) => {
-        return usersAdapter.updateOne(update, state);
+    on(UserActions.updateUser, (state, { user }) => {
+        return usersAdapter.upsertOne(user, state);
     })
 );
