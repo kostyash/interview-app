@@ -1,11 +1,11 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { PostComponent } from '../post.component';
+import { PostComponent } from '../post/post.component';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { selectPostsByUserName } from 'src/app/state';
 import { IPost } from 'src/app/entities/post';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { togglePost } from 'src/app/state/post.actions';
+import { toggleLike } from 'src/app/state/post.actions';
 
 @Component({
   selector: 'app-posts-list',
@@ -15,18 +15,18 @@ import { togglePost } from 'src/app/state/post.actions';
   standalone: true
 })
 export class PostsListComponent implements OnInit {
+
   @Input() username!: string;
 
   store = inject(Store);
 
-    posts$!: Observable<IPost[]> ;
+  posts$!: Observable<IPost[]>;
 
-    ngOnInit(): void {
-      this.posts$ = this.store.select(selectPostsByUserName(this.username));
-    }
+  ngOnInit(): void {
+    this.posts$ = this.store.select(selectPostsByUserName(this.username));
+  }
 
-    togglePost(id: number, like: boolean) {
-        this.store.dispatch(togglePost({ id, like }));
-    }
-
+  onLikeToggle(id: number, like: boolean) {
+    this.store.dispatch(toggleLike({ id, like }));
+  }
 }

@@ -2,10 +2,10 @@ import { AsyncPipe, NgFor } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { User } from "../entities/contracts";
-import { selectAllUsers } from "../state";
-import { selectUser } from "../state/user.actions";
-import { UserComponent } from "./user/user.component";
+import { User } from "../../entities/contracts";
+import { selectAllUsers } from "../../state";
+import { selectUser } from "../../state/user.actions";
+import { UserComponent } from "../user/user.component";
 
 @Component({
     selector: "app-users-list",

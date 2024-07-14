@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { IPost } from './entities/post';
 
 
@@ -17,7 +17,7 @@ export class PostsService {
     return this.http.get<IPost[]>(this.baseUrl + username);
   }
 
-  public setPostStatus(post: IPost): Observable<IPost> {
-    return this.http.post<IPost>(this.baseUrl + 'like/', post);
+  public setPostStatus(post: IPost): Observable<IPost> {   
+    return this.http.post<IPost>(this.baseUrl + 'like', post).pipe(map(post =>  ({...post, liked: !!post.liked})));
   }
 }

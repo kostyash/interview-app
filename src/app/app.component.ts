@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MainContentComponent } from "./components/main-content.component";
-import { UsersListComponent } from "./components/users-list.component";
+import { MainContentComponent } from "./components/main-content/main-content.component";
+import { UsersListComponent } from "./components/users-list/users-list.component";
 import { Store } from '@ngrx/store';
 import { getUsers } from './state/user.actions';
 

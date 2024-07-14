@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { PostsListComponent } from "./posts-list/posts-list.component";
+import { PostsListComponent } from "../posts-list/posts-list.component";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { selectCurrentUsersIds } from "../state";
+import { selectCurrentUsersIds } from "../../state";
 import { AsyncPipe, NgFor } from "@angular/common";
-import { deleteAllPosts } from "../state/post.actions";
+import { deleteAllPosts } from "../../state/post.actions";
 
 @Component({
     selector: "app-main-content",

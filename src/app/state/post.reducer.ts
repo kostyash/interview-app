@@ -44,4 +44,7 @@ export const postReducer = createReducer(initialState,
     on(PostActions.deleteOldPosts, (state, { currentUserIds }) => {
         return postsAdapter.removeMany(post => !currentUserIds.includes(post.username), state);
     }),
+    on(PostActions.updatePost, (state, { update }) => {
+        return postsAdapter.updateOne(update, state);
+    })
 );

@@ -1,6 +1,6 @@
 import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { IPost } from "../entities/post";
+import { IPost } from "../../entities/post";
 
 @Component({
     selector: "app-post",
