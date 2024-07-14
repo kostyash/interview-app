@@ -1,0 +1,12 @@
+:host{
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 300;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+    .text{       
+        text-align: left;
+    }
+}

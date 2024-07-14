@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import {
   getPosts,
   getPostsByUser,
@@ -26,7 +26,7 @@ export class PostEffects {
   getPostsByUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getPostsByUser),     
-      switchMap(action =>
+      mergeMap(action =>
         this.postsService.getPosts(action.username).pipe(          
           map(posts => loadPosts({ posts })),
           catchError(error => of(logError({ error })))

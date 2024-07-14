@@ -30,7 +30,7 @@ export const postReducer = createReducer(initialState,
 
     on(PostActions.loadPosts, (state, { posts }) => {
 
-        return postsAdapter.setAll(posts, state);
+        return postsAdapter.addMany(posts, state);
     }),
     on(PostActions.addPosts, (state, { posts }) => {
 

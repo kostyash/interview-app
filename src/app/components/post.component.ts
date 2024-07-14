@@ -4,11 +4,8 @@ import { IPost } from "../entities/post";
 
 @Component({
     selector: "app-post",
-    template: `
-        <div>{{post.datePublished | date }}</div>
-        <div>{{post.text}}</div>
-        <button (click)="onLikeClicked()">{{post.liked ? "UNLIKE" : "LIKE"}}</button>
-    `,
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.scss'],
     standalone: true,
     imports: [DatePipe],
     changeDetection: ChangeDetectionStrategy.OnPush
