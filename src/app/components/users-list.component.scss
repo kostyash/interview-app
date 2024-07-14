@@ -1,0 +1,9 @@
+.users{
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 200px);
+    overflow: auto;
+    .user{       
+        margin-bottom: 10px;
+    }   
+}

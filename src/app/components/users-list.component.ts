@@ -1,37 +1,30 @@
 import { AsyncPipe, NgFor } from "@angular/common";
-import { Component, inject, Input, OnInit } from "@angular/core";
-import { User } from "../entities/contracts";
-import { select, Store } from "@ngrx/store";
-import { selectAllUsers } from "../state";
+import { Component, inject } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { User } from "../entities/contracts";
+import { selectAllUsers } from "../state";
+import { selectUser } from "../state/user.actions";
+import { UserComponent } from "./user/user.component";
 
 @Component({
     selector: "app-users-list",
-    template: `
-        <h2>Following</h2>
-        <ul>
-            <li *ngFor="let user of users$ | async">
-                {{user.username}}
-                {{user.totalPosts}}
-                {{user.likedPosts}}
-
-        </ul>
-    `,
+    templateUrl: "./users-list.component.html",
+    styleUrls: ["./users-list.component.scss"],
     standalone: true,
-    imports: [NgFor, AsyncPipe]
+    imports: [NgFor, AsyncPipe, UserComponent]
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent {
+
 
     store = inject(Store);
 
-    users$: Observable<User[]> = this.store.select(selectAllUsers)
+    users$: Observable<User[]> = this.store.select(selectAllUsers);
 
 
-    ngOnInit(): void {
 
-
+    selectUser(userId: string) {
+        this.store.dispatch(selectUser({ userId }))
     }
-
-
 
 }

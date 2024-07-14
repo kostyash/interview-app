@@ -32,14 +32,14 @@ export const initialState: UserState = usersAdapter.getInitialState({
 export const userReducer = createReducer(initialState,
     on(UserActions.selectUser, (state, { userId }) => {
         const currentUsersIds = [...state.currentUsersIds];
-        currentUsersIds.unshift();
+        currentUsersIds.unshift(userId);
         if (currentUsersIds.length > 2) {
             currentUsersIds.pop();
         }
         return { ...state, currentUsersIds: currentUsersIds };
     }),
     on(UserActions.loadUsers, (state, { users }) => {
-        console.log(users);
-        return usersAdapter.setAll(users, { ...state, currentUsersIds: [] });
+        const currentUsersIds = users.filter((user, index) => index < 2).map(user => user.username);
+        return usersAdapter.setAll(users, { ...state, currentUsersIds: currentUsersIds });
     }),
 );
